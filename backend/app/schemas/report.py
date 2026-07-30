@@ -13,6 +13,7 @@ class ReportCreate(BaseModel):
 # In a response which includes a report.
 class ReportResponse(BaseModel):
     id: int
+    company_id: int
     title: str
     description: str
     report_date: date

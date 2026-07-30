@@ -3,6 +3,7 @@ from app.models.company import Company
 from app.schemas.company import CompanyCreate
 from app.models.report import Report
 from app.schemas.report import ReportCreate
+from app.scoring.service import update_score
 
 # Defines the creation and fetching of companies.
 def create_company(db: Session, company: CompanyCreate):
@@ -37,6 +38,10 @@ def create_report(db: Session, company_id: int, report: ReportCreate):
     db.add(db_report)
     db.commit()
     db.refresh(db_report)
+
+    # Update the company's score.
+    company = db.get(Company, company_id)
+    update_score(db, company)
 
     return db_report
 
