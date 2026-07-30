@@ -28,6 +28,22 @@ def calculate_score(evidence: CompanyEvidence) -> int:
     if evidence.security_txt:
         score += rules.SECURITY_TXT
 
+    # Apply positive header fields.
+    if evidence.hsts:
+        score += rules.HSTS
+
+    if evidence.csp:
+        score += rules.CSP
+
+    if evidence.x_frame_options:
+        score += rules.X_FRAME_OPTIONS
+
+    if evidence.x_content_type_options:
+        score += rules.X_CONTENT_TYPE_OPTIONS
+
+    if evidence.referrer_policy:
+        score += rules.REFERRER_POLICY
+
     # Ensure score stays between 0 and 100.
     score = max(score, 0)
     score = min(score, 100)
