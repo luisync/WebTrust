@@ -13,26 +13,24 @@ def create_company(db: Session, company: CompanyCreate):
     company.name,
     company.domain)
 
-def get_companies(db: Session):
-    return db.query(Company).all()
-
 # Returns a company or creates an entry if not currently in the database.
-def get_or_create_company(db: Session, name: str, domain: str):
-    # Search if the company with the domain.
-    company = (
-        db.query(Company)
-        .filter(Company.domain == domain)
-        .first()
-    )
+def get_companies(db: Session, name: str | None = None, domain: str | None = None):
+    # Determine what parameters the request provided.
+    if not name and not domain:
+        # Return a list of all companies when no parameter is givem.
+        return db.query(Company).all()
 
-    if company:
-        return company
+    # Prepare query.
+    company = db.query(Company)
 
-    return scan_company(
-        db,
-        name,
-        domain
-    )
+    # Domain was given.
+    if domain:
+        # Update query to search the database with the domain.
+        return company.filter(Company.domain == domain).first()
+    # Name was given.
+    elif name:
+        # Update query to search the database with the name.
+        return company.filter(Company.name == name).first()
 
 # Defines the creation and fetching of reports.
 def create_report(db: Session, company_id: int, report: ReportCreate):

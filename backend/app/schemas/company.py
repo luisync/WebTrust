@@ -17,8 +17,3 @@ class CompanyResponse(BaseModel):
     model_config = {
         "from_attributes": True
     }
-
-# In a company request to lookup a company.
-class CompanyLookup(BaseModel):
-    name: str
-    domain: str
