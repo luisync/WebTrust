@@ -23,25 +23,31 @@ async function main() {
     // Attempt to search the databases for the domain for the current website. 
     try {
         const response = await fetch(`http://localhost:8000/companies?domain=${domain}`);
-        
+
         // Domain not found.
         if (!response.ok) {
-            document.getElementById("score").textContent =
-                "Unknown company";
+            document.getElementById("score").textContent = "Unknown company";
 
             return;
         }
 
-        // Update the popup elements to display the company's score and rating.
+        // Get the company's score and rating.
         const company = await response.json();
-        document.getElementById("score").textContent = `Trust Score: ${company.trust_score}`;
-        document.getElementById("rating").textContent =`Rating: ${company.rating}`;
+        const score = document.getElementById("score");
+        const rating = document.getElementById("rating");
+
+        // Display the company's rating on the popup.
+        score.textContent = company.trust_score;
+        rating.textContent = company.rating.toUpperCase();
+
+        // Affix the rating of the company as a class in the HTML tag.
+        rating.className = "rating";
+        rating.classList.add(company.rating.toLowerCase());
     }
 
     // Search was unable to be conducted because of failure in the API.
     catch (error) {
-        document.getElementById("score").textContent =
-            "API unavailable";
+        document.getElementById("score").textContent = "API unavailable";
 
         console.error(error);
     }

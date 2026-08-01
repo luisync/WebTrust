@@ -1,13 +1,69 @@
 body {
-    width: 250px;
-    padding: 15px;
+    width: 280px;
     font-family: Arial, Helvetica, sans-serif;
+    margin: 15px;
+    background: #f6f7fb;
 }
 
 h2 {
     margin-top: 0;
+    text-align: center;
 }
 
-p {
-    margin: 8px 0;
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.239);
+}
+
+.domain {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    word-break: break-all;
+}
+
+.score-title {
+    text-align: center;
+    color: gray;
+    margin-top: 15px;
+}
+
+.score {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.rating {
+    text-align: center;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.excellent {
+    background: #2ecc71;
+}
+
+.good {
+    background: #27ae60;
+}
+
+.fair {
+    background: #f39c12;
+}
+
+.poor {
+    background: #e67e22;
+}
+
+.critical {
+    background: #c0392b;
+}
+
+.unknown {
+    background: gray;
 }
