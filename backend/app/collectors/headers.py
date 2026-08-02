@@ -10,7 +10,6 @@ def get_security_headers(domain: str) -> dict:
 
         headers = response.headers
 
-        print(headers)
         return {
             "hsts": "Strict-Transport-Security" in headers,
             "csp": "Content-Security-Policy" in headers,

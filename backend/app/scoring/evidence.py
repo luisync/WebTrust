@@ -18,9 +18,10 @@ class CompanyEvidence:
     iso27001: bool = False
     soc2: bool = False
 
+    # Securitxt file.
     security_txt: bool = False
 
-    # Cheacking header fields.
+    # Header fields.
     hsts: bool = False
     csp: bool = False
     x_frame_options: bool = False

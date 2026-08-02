@@ -46,6 +46,5 @@ def build_evidence(db: Session, company_id: int) -> CompanyEvidence:
     evidence.bug_bounty = company.bug_bounty
     evidence.iso27001 = company.iso27001
     evidence.soc2 = company.soc2
-    evidence.security_txt = company.security_txt
 
     return evidence

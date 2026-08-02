@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from ui.dashboard import Dashboard
+from desktop.ui.dashboard import Dashboard
 
 # Load the app.
 def start():
