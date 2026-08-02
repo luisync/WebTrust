@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "WebTrust",
+    "description": "Displays the WebTrust score of the current site.",
+    "version": "0.1",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+    "activeTab",
+    "tabs"
+    ],
+    "host_permissions": [
+        "http://localhost:8000/*"
+    ]
+}
