@@ -13,7 +13,7 @@ def create_company(db: Session, company: CompanyCreate):
     company.name,
     company.domain)
 
-# Returns a company or creates an entry if not currently in the database.
+# Returns a company that macthes the parameters or all companies if none are given.
 def get_companies(db: Session, name: str | None = None, domain: str | None = None):
     # Determine what parameters the request provided.
     if not name and not domain:
@@ -27,6 +27,7 @@ def get_companies(db: Session, name: str | None = None, domain: str | None = Non
     if domain:
         # Update query to search the database with the domain.
         return company.filter(Company.domain == domain).first()
+
     # Name was given.
     elif name:
         # Update query to search the database with the name.
@@ -53,5 +54,30 @@ def create_report(db: Session, company_id: int, report: ReportCreate):
 
     return db_report
 
-def get_reports(db: Session):
-    return db.query(Report).all()
+# Returns all reports are affixed to a company.
+def get_reports(db: Session, company_id: int | None = None, domain: str | None = None):
+    # Determine what parameters the request provided.
+    if not company_id and not domain:
+        # Return a list of all companies when no parameter is givem.
+        return db.query(Report).all()
+
+    # Prepare query.
+    report = db.query(Report)
+
+    # Domain was given.
+    if domain:
+        # Search the database to for the company with the given domain.
+        company = get_companies(db, domain=domain)
+
+        if company is None:
+            return []
+        
+        # Update query to search the database with the domain.
+        return report.filter(Report.company_id == company.id).all()
+
+    # Id was given.
+    if company_id:
+        # Update query to search the database with the name.
+        return report.filter(Report.company_id == company_id).all()
+
+    return []

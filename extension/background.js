@@ -25,7 +25,9 @@ async function getCompanyByDomain(domain){
 async function blockDomain(domain, tabId) {
     const ruleId = ruleIdForDomain(domain);
 
-    const blockedUrl = chrome.runtime.getURL(`blocked.html?domain=${encodeURIComponent(domain)}`);
+    const blockedUrl = chrome.runtime.getURL(
+        `blocked-page-dist/blocked.html?domain=${encodeURIComponent(domain)}&rating=critical`
+    );
 
     // Define the rule that defines this block.
     const rule = {
@@ -34,7 +36,7 @@ async function blockDomain(domain, tabId) {
         action: {
             type: "redirect",
             redirect: {
-                extensionPath: `/blocked.html?domain=${encodeURIComponent(domain)}`
+                extensionPath: "/blocked-page-dist/blocked.html"
             }
         },
         condition: {

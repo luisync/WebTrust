@@ -1,11 +1,35 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app import crud
 
 from app.schemas.report import ReportCreate, ReportResponse
+from app.services.scanner import scan_nvd
 
 router = APIRouter(prefix="/reports", tags=["Reports"])
+
+# Sync the NVD security reports to this database.
+@router.post("/sync-nvd")
+def sync_nvd(
+    domain: str | None = None,
+    days_back: int = 30,
+    mode: str = "modified",
+    db: Session = Depends(get_db),
+):
+    result = scan_nvd(
+        db,
+        domain=domain,
+        days_back=days_back,
+        mode=mode
+    )
+
+    if result is None:
+        raise HTTPException(
+            status_code=404, 
+            detail="Company not found."
+        )
+
+    return result
 
 # Create a report.
 @router.post("/{company_id}", response_model=ReportResponse)
@@ -13,6 +37,20 @@ def create_report(company_id: int, report: ReportCreate, db: Session = Depends(g
     return crud.create_report(db, company_id, report)
 
 # Get all reports.
-@router.get("", response_model=list[ReportResponse])
-def get_reports(db: Session = Depends(get_db)):
-    return crud.get_reports(db)
+@router.get("", response_model=list[ReportResponse] | ReportResponse | None)
+def get_reports(
+    db: Session = Depends(get_db),
+    company_id: int | None = None, 
+    domain: str | None = None):
+
+    reports = crud.get_reports(db, company_id=company_id, domain=domain)
+
+    # No reports found.
+    if not reports:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Report not found."
+        )
+    
+    return reports
+

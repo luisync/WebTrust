@@ -32,8 +32,8 @@ def build_evidence(db: Session, company_id: int) -> CompanyEvidence:
     if company is not None:
         evidence.security_txt = has_securitytxt(company.domain)
 
-    # Checking whether the domain's header fields.
-    headers = get_security_headers(company.domain)
+        # Checking whether the domain's header fields.
+        headers = get_security_headers(company.domain)
     evidence.hsts = headers["hsts"]
     evidence.csp = headers["csp"]
     evidence.x_frame_options = headers["x_frame_options"]
@@ -48,3 +48,4 @@ def build_evidence(db: Session, company_id: int) -> CompanyEvidence:
     evidence.soc2 = company.soc2
 
     return evidence
+

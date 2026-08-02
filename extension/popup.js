@@ -10,8 +10,10 @@ async function getCurrentTab() {
 }
 
 // Redirect the user's current tab to a "Blocked site" tab, if the security's rating is poor.
-async function redirectPorrSite(tabId, domain){
-    const blockedUrl = chrome.runtime.getURL(`blocked.html?domain=${encodeURIComponent(domain)}&rating=poor`);
+async function redirectPoorSite(tabId, domain){
+    const blockedUrl = chrome.runtime.getURL(
+        `blocked-page-dist/blocked.html?domain=${encodeURIComponent(domain)}&rating=poor`
+    );
 
     // Commence an update event.
     await chrome.tabs.update(tabId, { url: blockedUrl });
@@ -52,7 +54,7 @@ async function main() {
         // Display a popup to the user if the website is unsafe.
         if (company.rating === "Poor") {
             // Stop the current tab from running.
-            await redirectPorrSite(tab.id, domain);
+            await redirectPoorSite(tab.id, domain);
         }
 
         // Affix the rating of the company as a class in the HTML tag.
