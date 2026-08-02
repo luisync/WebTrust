@@ -1,5 +1,7 @@
 import customtkinter as ctk
-import api.client as client
+import desktop.api.client as client
+import datetime
+from desktop.scanner.scan import security_scan
 
 # Define the in-app visuals.
 class Dashboard(ctk.CTk):
@@ -27,6 +29,9 @@ class Dashboard(ctk.CTk):
 
         # Refresh the dashboard.
         self.refresh_dashboard()
+
+        # Scan for security posture changes.
+        self.scan()
 
     # Define the visuals for the header frame in the app.
     def create_header(self):
@@ -86,7 +91,8 @@ class Dashboard(ctk.CTk):
         # A button allowing the user to commence the next security scan.
         button = ctk.CTkButton(
             frame,
-            text="Scan All"
+            text="Scan All",
+            command=self.scan
         )
         button.pack(side="left", padx=20, pady=20)
 
@@ -113,17 +119,17 @@ class Dashboard(ctk.CTk):
         title.pack(anchor="w", padx=20, pady=20)
 
         # Offer comments on the scans.
-        textbox = ctk.CTkTextbox(
+        self.activity = ctk.CTkTextbox(
             frame,
             height=300
         )
-        textbox.pack(
+        self.activity.pack(
             fill="both",
             expand=True,
             padx=20,
             pady=(0, 20)
         )
-        textbox.insert(
+        self.activity.insert(
             "1.0",
             "No scans have been run yet."
         )
@@ -138,10 +144,36 @@ class Dashboard(ctk.CTk):
             text=f"Backend\n{backend['status']}"
         )
 
-        # Cehck the database for companies.
+        # Check the database for companies.
         companies = client.get_companies()
 
         # Update the dashboard's companies label.
         self.companies_label.configure(
             text=f"Companies\n{len(companies)}"
+        )
+
+    # Scans the security posture of the companies in the database.
+    def scan(self):
+        # Check the domain's security posture.
+        results = security_scan()
+
+        # No companies in the database.
+        if not results:
+            self.activity.insert(
+                "end",
+                "No companies found.\n"
+            )
+            return
+
+        # Replace the old text.
+        self.activity.delete("1.0", "end")
+        for result in results:
+            self.activity.insert(
+                "end",
+                f"[{datetime.datetime.now().__format__('%x %X')}]: {result.details}\n"
+            )
+
+        # Update last scan label.
+        self.last_scan_label.configure(
+            text=f"Last Scan\n{datetime.datetime.now().__format__('%x %X')}"
         )
