@@ -1,6 +1,5 @@
 from datetime import datetime
-from sqlalchemy import DateTime
-from sqlalchemy import Integer, String
+from sqlalchemy import DateTime, Integer, String, Boolean
 from sqlalchemy.sql import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
@@ -38,6 +37,43 @@ class Company(Base):
     rating: Mapped[str] = mapped_column(
         String(50),
         default="Fair"
+    )
+
+    # Security features that a company has.
+    mfa_supported: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    passkey_supported: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    bug_bounty: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    iso27001: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    soc2: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    security_txt: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
     )
 
     # One-to-many relationship with secutiry reports table.

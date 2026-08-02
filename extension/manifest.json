@@ -2,15 +2,19 @@
     "manifest_version": 3,
     "name": "WebTrust",
     "description": "Displays the WebTrust score of the current site.",
-    "version": "0.1",
+    "version": "0.2",
     "action": {
         "default_popup": "popup.html"
     },
     "permissions": [
-    "activeTab",
-    "tabs"
+        "activeTab",
+        "tabs",
+        "declarativeNetRequest"
     ],
     "host_permissions": [
         "http://localhost:8000/*"
-    ]
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
 }
