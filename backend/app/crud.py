@@ -50,7 +50,7 @@ def create_report(db: Session, company_id: int, report: ReportCreate):
 
     # Update the company's score.
     company = db.get(Company, company_id)
-    update_score(db, company)
+    update_score(db)
 
     return db_report
 

@@ -1,13 +1,21 @@
+import math
+
 from app.scoring.evidence import CompanyEvidence
 from app.scoring import rules
+
+# Decreases the penalty based on the amount of reports to allow for comparison between companies.
+def _dampened_penalty(count: int, weight: int) -> int:
+    if count <= 0:
+        return 0
+    return int(math.log10(count + 1) * weight)
 
 # Use calcaulating rules to compute a value -- the company's index.
 def calculate_score(evidence: CompanyEvidence) -> int:
     score = rules.BASE_SCORE
 
-    # Apply breach penelties.
-    score += evidence.major_breaches * rules.BREACH_MAJOR
-    score += evidence.minor_breaches * rules.BREACH_MINOR
+    # Apply breach penelties using square-root scaling to enforce a restrict the value.
+    score -= _dampened_penalty(evidence.major_breaches, abs(rules.BREACH_MAJOR))
+    score -= _dampened_penalty(evidence.minor_breaches, abs(rules.BREACH_MINOR))
 
     # Apply positive security features.
     if evidence.mfa_supported:

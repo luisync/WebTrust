@@ -365,7 +365,7 @@ def sync_company_from_nvd(
 
         db.flush()
         from app.scoring.service import update_score
-        update_score(db, company)
+        update_score(db)
         db.commit()
         db.refresh(company)
 

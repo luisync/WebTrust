@@ -16,7 +16,7 @@ def scan_company(db: Session, name: str, domain: str):
     db.commit()
     db.refresh(company)
 
-    update_score(db, company)
+    update_score(db)
 
     return company
 

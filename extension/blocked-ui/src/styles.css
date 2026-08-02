@@ -29,6 +29,8 @@ body {
     border-radius: 20px;
     padding: 28px;
     box-shadow: 0 18px 60px rgba(15, 23, 42, 0.10);
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .badge {
@@ -132,6 +134,8 @@ h1 {
 .reports {
     display: grid;
     gap: 12px;
+    width: 100%;
+    min-width: 0;
 }
 
 .report {
@@ -139,6 +143,9 @@ h1 {
     border-radius: 14px;
     padding: 16px;
     background: #fff;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .report-top {
@@ -146,20 +153,28 @@ h1 {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    flex-wrap: wrap;
+    min-width: 0;
 }
 
 .meta {
     display: flex;
+    flex-wrap: wrap;
     gap: 14px;
     margin-top: 8px;
     color: #6b7280;
     font-size: 14px;
+    min-width: 0;
 }
 
 .report p {
     margin: 12px 0 0;
     color: #374151;
     line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    min-width: 0;
 }
 
 .severity {
