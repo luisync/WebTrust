@@ -54,12 +54,24 @@ def create_report(db: Session, company_id: int, report: ReportCreate):
 
     return db_report
 
-# Returns all reports are affixed to a company.
-def get_reports(db: Session, company_id: int | None = None, domain: str | None = None):
+# Returns reports of security incidents.
+def get_reports(
+        db: Session, 
+        company_id: int | None = None, 
+        domain: str | None = None, 
+        limit: int | None = None,
+        offset: int | None = None
+    ):
+
     # Determine what parameters the request provided.
-    if not company_id and not domain:
+    if not company_id and not domain and not limit and not offset:
         # Return a list of all companies when no parameter is givem.
         return db.query(Report).all()
+
+    """
+    Assumes the user either has entered limit, offset, and company_id or left the fields empty, from checks
+    conducted before calling this function.
+    """
 
     # Prepare query.
     report = db.query(Report)
@@ -78,6 +90,13 @@ def get_reports(db: Session, company_id: int | None = None, domain: str | None =
     # Id was given.
     if company_id:
         # Update query to search the database with the name.
-        return report.filter(Report.company_id == company_id).all()
-
+        return (
+            report
+            .filter(Report.company_id == company_id)
+            .order_by(Report.id.desc())
+            .offset(offset)
+            .limit(limit)
+            .all()
+        )
+    
     return []

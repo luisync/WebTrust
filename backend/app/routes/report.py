@@ -36,14 +36,30 @@ def sync_nvd(
 def create_report(company_id: int, report: ReportCreate, db: Session = Depends(get_db)):
     return crud.create_report(db, company_id, report)
 
-# Get all reports.
-@router.get("", response_model=list[ReportResponse] | ReportResponse | None)
+# Get the reports of security incidents.
+@router.get("", response_model=list[ReportResponse] | ReportResponse)
 def get_reports(
     db: Session = Depends(get_db),
     company_id: int | None = None, 
-    domain: str | None = None):
+    domain: str | None = None,
+    limit: int | None = None,
+    offset: int | None = None):
 
-    reports = crud.get_reports(db, company_id=company_id, domain=domain)
+    # Ensure the user has entered a company name and offset if they specify a limit.
+    if limit is not None and (offset is None) and (company_id is not None):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Specify an offset if you wish to set a limit (e.g.: 0)."
+        )
+    
+    # Search for reports within the given
+    reports = crud.get_reports(
+        db, 
+        company_id=company_id, 
+        domain=domain,
+        limit=limit,
+        offset=offset
+    )
 
     # No reports found.
     if not reports:

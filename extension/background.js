@@ -66,8 +66,14 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     try {
         // Format the URL.
         const url = new URL(tab.url);
-        const domain = url.hostname.replace(/^www\./, "");
 
+        // Ignore any tab that is not a website.
+        if (url.protocol !== "http:" && url.protocol !== "https:") {
+            return;
+        }
+
+        const domain = url.hostname.replace(/^www\./, "");
+        
         // Attempt to link to domain to a company in the database.
         const company = await getCompanyByDomain(domain);
         
