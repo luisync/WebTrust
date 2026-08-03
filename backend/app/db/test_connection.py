@@ -1,16 +1,11 @@
-from sqlalchemy import text
-from app.db.session import engine
+from app.db.session import get_db
 
-def test_connection():
-    with engine.connect() as connection:
-        result = connection.execute(
-            text(
-                "SELECT version();"
-            )
-        )
+def test_get_db():
+    # Databse generator.
+    db = get_db()
+    session = next(db)
 
-        print("\nConnected successfully to the database.\n")
-        print(result.scalar())
+    assert session is not None
 
-if __name__ == "__main__":
-    test_connection()
+    # Close the connection.
+    db.close()

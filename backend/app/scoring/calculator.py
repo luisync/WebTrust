@@ -9,7 +9,7 @@ def _dampened_penalty(count: int, weight: int) -> int:
         return 0
     return int(math.log10(count + 1) * weight)
 
-# Use calcaulating rules to compute a value -- the company's index.
+# Use calcaulating rules to compute the company's trust score.
 def calculate_score(evidence: CompanyEvidence) -> int:
     score = rules.BASE_SCORE
 

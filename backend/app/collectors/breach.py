@@ -251,6 +251,16 @@ def _upsert_nvd_report(db: Session, company: Company, cve: dict) -> bool:
     if not cve_id:
         return False
 
+    # Ensure the company is referenced in the report.
+    description_text = _extract_description(cve).lower()
+    reference_text = " ".join(_extract_reference_urls(cve)).lower()
+
+    company_name = (company.name or "").strip().lower()
+    company_domain = (company.domain or "").strip().lower().removeprefix("www.")
+
+    if company_name not in description_text and company_name not in reference_text and company_domain not in description_text and company_domain not in reference_text:
+        return False
+
     # Get it's publiished date.
     published = cve.get("published")
     if published:

@@ -3,7 +3,7 @@ from app.scoring.calculator import calculate_score
 from app.scoring.ratings import get_rating
 
 
-company = CompanyEvidence(
+evidence = CompanyEvidence(
     major_breaches=1,
     minor_breaches=2,
     mfa_supported=True,
@@ -14,7 +14,8 @@ company = CompanyEvidence(
     security_txt=True
 )
 
-score = calculate_score(company)
+def test_calculate_score():
+    assert calculate_score(evidence) is not None
 
-print(score)
-print(get_rating(score))
+def test_get_rating():
+    assert get_rating(calculate_score(evidence)) is not None
