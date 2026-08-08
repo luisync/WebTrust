@@ -214,6 +214,24 @@ Potential future work includes:
 - Firefox and Edge support.
 - Additional security signal collection by checking URLs and gauging whether it is a malicious link.
 
+# Previews
+
+## Extension
+
+### Extension Popup
+![Extension Popup 1](Media/extension_popup_1.png)
+![Extension Popup 2](Media/extension_popup_2.png)
+
+### Site Blocked
+
+![Site Blocked 1](Media/siteblocked_1.png)
+![Site Blocked 2](Media/siteblocked_2.png)
+
+## Desktop App
+
+![Desktop 1 Online](Media/desktop_1_online.png)
+![Desktop 2 Offline](Media/desktop_2_offline.png)
+
 # Why This Project?
 
 Modern users often rely on browser warnings that provide little context beyond "unsafe" when diverting users from threats.
