@@ -8,7 +8,7 @@ A browser extension, web application, and desktop application that evaluates the
 
 Each company receives a security score based on the evaluation of their security posture -- National Vulnerability Database (NVD), security headers, and security.txt file status. 
 
-To avoid having companies with a high amount of vulnerability reports always appearing as the least trustworthy a relative scoring algorithm is used. A rating is then associated with the company depending on their score -- excellent, good, fair, poor, or critical.
+To avoid having companies with a high number of vulnerability reports always appearing as the least trustworthy, a relative scoring algorithm is used. A rating is then associated with the company depending on their score -- excellent, good, fair, poor, or critical.
 
 # Technologies and Skills
 
@@ -163,8 +163,8 @@ The desktop app allows the user to manually:
 
 - Scan the NVD for new entries.
 - Sync NVD entries with existing companies in its database.
-- Allow the user to forcefully refresh the database.
-- Gives the user information about the status of the API, date of the last scan, and an overview of the amount of companies currently in the database.
+- Refresh the database.
+- View the API's status, the date of the last scan, and the number of companies currently in the database.
 
 # API Endpoints
 
@@ -216,8 +216,7 @@ Potential future work includes:
 
 # Why This Project?
 
-Modern users often rely on browser warnings that provide little context beyond "unsafe".
+Modern users often rely on browser warnings that provide little context beyond "unsafe" when diverting users from threats.
 
-WebTrust explores how public cybersecurity data, website security features, and automated analysis can be combined into an explainable trust scoring system that helps users make more informed decisions while browsing.
+WebTrust aims to give users a clearer reason behind this decision by exploring public cybersecurity data and website security features to create a trust score for any website. This figure is then translated into a direct description of the site's safety, along with a detailed explanation behind the scoring and suggestions for safe browsing so that users can keep themselves safe.
 
-The project demonstrates full-stack software engineering, browser extension development, cybersecurity principles, database design, REST API development, and data-driven decision making.
